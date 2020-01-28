@@ -1,0 +1,38 @@
+$color-background-primary: #67efa6;
+$color-background-secondary: #86bbd8;
+
+.header {
+  height: 45vh;
+  background-image: radial-gradient(
+    rgba($color-background-secondary, 0.8),
+    rgba($color-background-primary, 0.8)
+  );
+  position: relative;
+  font-size: 3rem;
+  font-family: "PermanentMarker-Regular";
+
+  &__logo-box {
+    position: absolute;
+    top: 3rem;
+    left: 3rem;
+  }
+
+  &__text-box {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__heading-primary {
+    letter-spacing: 1rem;
+    color: rgb(11, 43, 102);
+  }
+  &__heading-sub {
+    color: #5d2e8c;
+    position: absolute;
+    top: 150%;
+    left: 50%;
+    text-align: center;
+  }
+}

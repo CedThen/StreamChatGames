@@ -1,0 +1,34 @@
+.streambox {
+  position: absolute;
+  top: 27%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2rem 6rem;
+  border: solid;
+  font-size: 1rem;
+
+  &__title {
+    font-size: 2rem;
+    padding: 1rem;
+  }
+
+  &__url-tag {
+    font-size: 1.5rem;
+  }
+
+  &__url-input {
+    width: 15rem;
+    font-family: "Montserrat-Regular";
+  }
+
+  &__url-submit {
+    position: relative;
+    left: 50%;
+  }
+  &__timer-tag {
+    font-size: 1.3rem;
+  }
+  &__timer-seconds {
+    font-size: 1.4rem;
+  }
+}

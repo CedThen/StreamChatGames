@@ -1,0 +1,19 @@
+$color-madlibs-title: #ee6352;
+$color-stream-name: #57a773;
+//more colors
+// 08B2E3 57A773 484D6D EFE9F4
+.madlibs {
+  &__title {
+    font-family: "PermanentMarker-Regular";
+    font-size: 5rem;
+    text-align: center;
+    color: $color-madlibs-title;
+  }
+
+  &__stream-name {
+    text-align: center;
+    font-size: 4.5rem;
+    color: $color-stream-name;
+    text-transform: uppercase;
+  }
+}
