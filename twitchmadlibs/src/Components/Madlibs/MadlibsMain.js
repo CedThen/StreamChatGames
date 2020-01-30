@@ -3,6 +3,7 @@ import DisplayMsgs from "../DisplayMsgs";
 import StreamConnectionBox from "../StreamConnectionBox/StreamConnectionBox";
 import "./MadlibsMain.scss";
 import GameLibraryDisplay from "../GameLibraryDisplay/GameLibraryDisplay";
+import GameDisplay from "../GameDisplay/GameDisplay";
 
 const socketURL = "ws://localhost:3030";
 
@@ -13,7 +14,7 @@ class MadlibsHome extends React.Component {
     msgs: [],
     showStreamBox: true,
     gameObjectLibrary: [],
-    currentGameObject: {}
+    currentGameObject: null
   };
   ws = new WebSocket(socketURL);
 
@@ -29,6 +30,10 @@ class MadlibsHome extends React.Component {
     const getMadlibLibrary = {
       type: "getMadlibLibrary"
     };
+  }
+
+  componentDidUpdate() {
+    console.log(this.state.currentGameObject);
   }
 
   wsMessageHandler = message => {
@@ -80,7 +85,6 @@ class MadlibsHome extends React.Component {
 
   onGameTitleClick = index => {
     this.setState({ currentGameObject: this.state.gameObjectLibrary[index] });
-    console.log(this.state.currentGameObject);
   };
   render() {
     return (
@@ -102,10 +106,14 @@ class MadlibsHome extends React.Component {
             {this.state.streamUrl}
           </div>
         )}
-        <GameLibraryDisplay
-          gameObjectLibrary={this.state.gameObjectLibrary}
-          onGameTitleClick={this.onGameTitleClick}
-        />
+        {!this.state.currentGameObject ? (
+          <GameLibraryDisplay
+            gameObjectLibrary={this.state.gameObjectLibrary}
+            onGameTitleClick={this.onGameTitleClick}
+          />
+        ) : (
+          <GameDisplay currentGameObject={this.state.currentGameObject} />
+        )}
       </div>
     );
   }
