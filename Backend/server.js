@@ -1,10 +1,10 @@
 const Websocket = require("ws");
 const wss = new Websocket.Server({ port: 3030 });
 const tmi = require("tmi.js");
-let isListening = true;
+let isListening = false;
 let latestMsg = "";
-let channelName = "";
 let chatTimer = 0;
+const madlibLibraryJson = require("./MadlibLibrary.json");
 
 let opts = {
   identity: {
@@ -31,7 +31,9 @@ function onMessageHandler(target, context, msg, self) {
   }
   latestMsg = msg;
   console.log("latest msg: ", latestMsg);
-  //wss.clients.forEach(onMsgReceived);
+  if (isListening) {
+    wss.clients.forEach(onMsgReceivedFromTwitch);
+  }
 }
 
 wss.on("connection", ws => {
@@ -39,10 +41,14 @@ wss.on("connection", ws => {
   ws.on("message", wsMessageHandler);
 });
 
-onMsgReceived = client => {
-  // if (client.readyState === Websocket.OPEN) {
-  //   client.send(latestMsg);
-  // }
+onMsgReceivedFromTwitch = client => {
+  let newMsg = {
+    type: "newMsg",
+    payload: latestMsg
+  };
+  if (client.readyState === Websocket.OPEN) {
+    client.send(JSON.stringify(newMsg));
+  }
 };
 
 wsMessageHandler = msg => {
@@ -53,11 +59,15 @@ wsMessageHandler = msg => {
       chatTimer = jsonMsg.payload.inputTimer;
       streamUrlStripped = jsonMsg.payload.streamUrl.trim();
       opts.channels = [streamUrlStripped];
-      console.log(opts.channels);
       clientSetup();
-
       break;
-
+    case "getMadlibLibrary":
+      console.log("running getMadlibLibrary");
+      const libMsg = {
+        type: "madlibLibraryJson",
+        payload: madlibLibraryJson
+      };
+      wss.clients.forEach(client => client.send(JSON.stringify(libMsg)));
     default:
       break;
   }

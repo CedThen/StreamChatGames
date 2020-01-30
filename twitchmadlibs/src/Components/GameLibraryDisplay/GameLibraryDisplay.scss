@@ -1,0 +1,21 @@
+$color-background-game-display: #484d6d;
+$color-game-display-text: #efe9f4;
+
+.GameLibraryDisplay {
+  &__container {
+    position: absolute;
+    top: 40%;
+    height: 60vh;
+    background-color: $color-background-game-display;
+    width: 97%;
+    text-align: center;
+    color: $color-game-display-text;
+  }
+  &__title {
+    font-size: 3rem;
+  }
+  &__list {
+    text-align: left;
+    font-size: 3rem;
+  }
+}
