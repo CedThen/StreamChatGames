@@ -5,9 +5,9 @@ $color-game-display-text: #efe9f4;
   &__container {
     position: absolute;
     top: 40%;
+    width: 70%;
     height: 60vh;
     background-color: $color-background-game-display;
-    width: 97%;
     text-align: center;
     color: $color-game-display-text;
   }

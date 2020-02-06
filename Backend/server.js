@@ -4,6 +4,7 @@ const tmi = require("tmi.js");
 let isListening = false;
 let latestMsg = "";
 let chatTimer = 0;
+let client;
 const madlibLibraryJson = require("./MadlibLibrary.json");
 
 let opts = {
@@ -11,14 +12,19 @@ let opts = {
     username: "chatgamesbot",
     password: "oauth:sdjtd4gea4ktqyamztqlafgqjbzduh"
   },
-  channels: ["yassuo"]
+  channels: [""]
 };
 
 function clientSetup() {
-  const client = new tmi.client(opts);
+  client = new tmi.client(opts);
   client.on("message", onMessageHandler);
   client.on("connected", onConnectedHandler);
+  client.on("disconnected", onDisconnectedHandler);
   client.connect();
+}
+
+function onDisconnectedHandler() {
+  console.log(`* disconnected`);
 }
 
 function onConnectedHandler(addr, port) {
@@ -30,7 +36,7 @@ function onMessageHandler(target, context, msg, self) {
     return;
   }
   latestMsg = msg;
-  console.log("latest msg: ", latestMsg);
+  // console.log("latest msg: ", latestMsg);
   if (isListening) {
     wss.clients.forEach(onMsgReceivedFromTwitch);
   }
@@ -53,22 +59,61 @@ onMsgReceivedFromTwitch = client => {
 
 wsMessageHandler = msg => {
   const jsonMsg = JSON.parse(msg);
-  console.log(jsonMsg);
+  console.log("msg from client: ", jsonMsg);
   switch (jsonMsg.type) {
     case "setupConfig":
-      chatTimer = jsonMsg.payload.inputTimer;
-      streamUrlStripped = jsonMsg.payload.streamUrl.trim();
-      opts.channels = [streamUrlStripped];
-      clientSetup();
+      onSetupConfigMsg(jsonMsg.payload);
       break;
     case "getMadlibLibrary":
-      console.log("running getMadlibLibrary");
-      const libMsg = {
-        type: "madlibLibraryJson",
-        payload: madlibLibraryJson
-      };
-      wss.clients.forEach(client => client.send(JSON.stringify(libMsg)));
+      onGetMadlibLibraryMsg();
+      break;
+    case "beginGame":
+      onBeginGameMsg();
+      break;
+    case "streamReset":
+      onStreamReset();
+      break;
+    case "stopListening":
+      onStopListening();
+      break;
     default:
       break;
   }
+};
+
+onStopListening = () => {
+  isListening = false;
+};
+
+onStreamReset = () => {
+  console.log("running streamreset");
+  if (client !== undefined) {
+    client.disconnect();
+  }
+  isListening = false;
+};
+
+onBeginGameMsg = () => {
+  console.log("beginning to listen");
+  isListening = true;
+  setTimeout(() => {
+    isListening = false;
+    console.log("stopped listening");
+    //look for ways to just end this function when islistening is set to false from elsewhere
+  }, chatTimer * 1000);
+};
+
+onGetMadlibLibraryMsg = () => {
+  const libMsg = {
+    type: "madlibLibraryJson",
+    payload: madlibLibraryJson
+  };
+  wss.clients.forEach(client => client.send(JSON.stringify(libMsg)));
+};
+
+onSetupConfigMsg = payload => {
+  chatTimer = payload.inputTimer;
+  streamUrlStripped = payload.streamUrl.trim();
+  opts.channels = [streamUrlStripped];
+  clientSetup();
 };

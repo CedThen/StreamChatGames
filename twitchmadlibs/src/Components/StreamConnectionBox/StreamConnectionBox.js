@@ -6,7 +6,8 @@ const StreamConnectionBox = ({
   onSubmitStreamClick,
   onTimerChange,
   streamUrl,
-  chatTimer
+  chatTimer,
+  onStreamConnectionResetClick
 }) => {
   return (
     <div className="streambox">
@@ -32,9 +33,14 @@ const StreamConnectionBox = ({
       <input
         className="streambox__url-submit"
         type="submit"
-        value="Start!"
+        value="Submit!"
         onClick={onSubmitStreamClick}
       />
+      {streamUrl !== "" ? (
+        <div onClick={onStreamConnectionResetClick}>Reset</div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
