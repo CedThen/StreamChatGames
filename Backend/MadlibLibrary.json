@@ -74,5 +74,16 @@
         ". Aye, now ye be a real pirate!"
       ]
     }
+  },
+  {
+    "title": "Test Display results",
+    "game": {
+      "blanks": ["foreign country", "adverb", "adjective"],
+      "value": [
+        "If you are traveling in ",
+        " and find yourself having to cross a piranha-filled river, here's how to do it ",
+        ": \n* Piranhas are more "
+      ]
+    }
   }
 ]

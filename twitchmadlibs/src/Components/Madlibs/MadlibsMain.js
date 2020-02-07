@@ -11,15 +11,25 @@ class MadlibsHome extends React.Component {
   constructor() {
     super();
     this.state = {
+      //stream connection box
       chatTimer: 30,
       streamUrl: "",
-      latestMsg: "",
       showStreamBox: true,
+      //chat display
+      latestMsg: "",
+      rankedMsgs: [],
+      allMsgsLib: {},
+      //game display
       gameObjectLibrary: [],
       currentGameObject: null,
-      rankedMsgs: [],
-      allMsgsLib: {}
+      currentlyDisplayedBlank: null,
+      blankIndex: null,
+      timeLeft: null,
+      gameEnd: false,
+      answerArray: [],
+      showResults: false
     };
+    //websocket client setup
     this.ws = new WebSocket(socketURL);
     this.ws.onopen = () => {
       console.log("connected");
@@ -33,10 +43,17 @@ class MadlibsHome extends React.Component {
     this.ws.onclose = () => {
       console.log("disconnected");
     };
+    //reset stream before page refresh/unload
+    window.addEventListener("unload", () => {
+      this.ws.send(JSON.stringify({ type: "streamReset" }));
+    });
+    //save timer as variable so it can be cleared later
+    this.timer = null;
   }
 
-  addMsgsToLib = newMsg => {
+  addMsgsToLib = newMsgUntrimmed => {
     let { allMsgsLib } = this.state;
+    const newMsg = newMsgUntrimmed.trim().toLowerCase();
     if (allMsgsLib[newMsg]) {
       const updatedChatMsgs = allMsgsLib;
       updatedChatMsgs[newMsg]++;
@@ -49,6 +66,12 @@ class MadlibsHome extends React.Component {
       this.compareAndRankMsgs(newMsg, false);
     }
   };
+
+  //msg objects structure
+  // const newMsgObj = {
+  //   msg: newMsg,
+  //   count: allMsgsLib[newMsg]
+  // };
 
   compareAndRankMsgs = (newMsg, seenBefore) => {
     let { allMsgsLib, rankedMsgs } = this.state;
@@ -146,27 +169,96 @@ class MadlibsHome extends React.Component {
       alert("Please enter your stream information");
       return;
     }
-    let gameBeginMsg = {
-      type: "beginGame"
+    //initial game state
+    this.setState({
+      blankIndex: 0,
+      timeLeft: this.state.chatTimer
+    });
+    //begin game loop
+    this.gameLoop();
+  };
+
+  gameLoop = () => {
+    //reset chat status, set timer
+    this.resetChatStorage();
+    this.setState({
+      timeLeft: this.state.chatTimer
+    });
+    //start timer, logic for what happens when timer is at 0
+    this.timer = setInterval(() => {
+      if (this.state.timeLeft > 0) {
+        //decrements timer
+        this.setState({ timeLeft: this.state.timeLeft - 1 });
+      } else {
+        this.stopListeningChatInput();
+
+        //new object to add to answerArray
+        let newAnswerArray = [
+          ...this.state.answerArray,
+          this.state.rankedMsgs[0].msg
+        ];
+
+        //time is up, show next button, fill in blank with top word, save word into answer array
+        this.setState({ timeLeft: 0, answerArray: newAnswerArray });
+        console.log("answer Array: ", this.state.answerArray);
+
+        //if able, increment blankIndex. depending on status of blank index, show either next or gameEnd
+        if (
+          this.state.blankIndex <
+          this.state.currentGameObject.game.blanks.length
+        ) {
+          this.setState({
+            //increments blankIndex
+            blankIndex: this.state.blankIndex + 1
+          });
+        } else {
+          this.setState({
+            gameEnd: true,
+            blankIndex: null,
+            timeLeft: null
+          });
+        }
+
+        clearInterval(this.timer);
+      }
+    }, 1000);
+    //tells server to listen
+    let beginListenMsg = {
+      type: "beginListen"
     };
-    console.log("begin game msg: ");
-    this.ws.send(JSON.stringify(gameBeginMsg));
+    this.ws.send(JSON.stringify(beginListenMsg));
+  };
+
+  onNextClick = () => {
+    if (!this.state.gameEnd) {
+      this.gameLoop();
+    }
   };
 
   onRestartGameClick = () => {
-    //todo
+    this.stopListeningChatInput();
+    this.setState({ blankIndex: null, chatTimer: null, showResults: false });
+    this.resetChatStorage();
   };
 
   onReturnLibClick = () => {
     this.resetChatStorage();
-    this.setState({ currentGameObject: null });
+    this.stopListeningChatInput();
+    this.setState({
+      blankIndex: null,
+      currentGameObject: null,
+      showResults: false
+    });
   };
 
   stopListeningChatInput() {
     const stopListeningMsg = {
-      payload: "stopListening"
+      type: "stopListening"
     };
     this.ws.send(JSON.stringify(stopListeningMsg));
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   resetChatStorage = () => {
@@ -183,6 +275,10 @@ class MadlibsHome extends React.Component {
       type: "streamReset"
     };
     this.ws.send(JSON.stringify(streamResetMsg));
+  };
+
+  onShowResultsClick = () => {
+    this.setState({ showResults: true });
   };
 
   render() {
@@ -213,11 +309,17 @@ class MadlibsHome extends React.Component {
           />
         ) : (
           <GameDisplay
-            chatTimer={this.state.chatTimer}
+            answerArray={this.state.answerArray}
+            blankIndex={this.state.blankIndex}
+            onNextClick={this.onNextClick}
             onRestartGameClick={this.onRestartGameClick}
             currentGameObject={this.state.currentGameObject}
             onGameBeginClick={this.onGameBeginClick}
             onReturnLibClick={this.onReturnLibClick}
+            gameEnd={this.state.gameEnd}
+            timeLeft={this.state.timeLeft}
+            onShowResultsClick={this.onShowResultsClick}
+            showResults={this.state.showResults}
           />
         )}
         <DisplayMsgs

@@ -3,9 +3,10 @@ const wss = new Websocket.Server({ port: 3030 });
 const tmi = require("tmi.js");
 let isListening = false;
 let latestMsg = "";
-let chatTimer = 0;
+// let chatTimer = 0;
 let client;
 const madlibLibraryJson = require("./MadlibLibrary.json");
+// let timer;
 
 let opts = {
   identity: {
@@ -36,7 +37,7 @@ function onMessageHandler(target, context, msg, self) {
     return;
   }
   latestMsg = msg;
-  // console.log("latest msg: ", latestMsg);
+
   if (isListening) {
     wss.clients.forEach(onMsgReceivedFromTwitch);
   }
@@ -45,6 +46,9 @@ function onMessageHandler(target, context, msg, self) {
 wss.on("connection", ws => {
   console.log("client connected");
   ws.on("message", wsMessageHandler);
+  ws.on("close", () => {
+    client = undefined;
+  });
 });
 
 onMsgReceivedFromTwitch = client => {
@@ -67,8 +71,8 @@ wsMessageHandler = msg => {
     case "getMadlibLibrary":
       onGetMadlibLibraryMsg();
       break;
-    case "beginGame":
-      onBeginGameMsg();
+    case "beginListen":
+      onBeginListenMsg();
       break;
     case "streamReset":
       onStreamReset();
@@ -93,14 +97,20 @@ onStreamReset = () => {
   isListening = false;
 };
 
-onBeginGameMsg = () => {
+onBeginListenMsg = () => {
   console.log("beginning to listen");
   isListening = true;
-  setTimeout(() => {
-    isListening = false;
-    console.log("stopped listening");
-    //look for ways to just end this function when islistening is set to false from elsewhere
-  }, chatTimer * 1000);
+  // timer = setTimeout(() => {
+  //   isListening = false;
+  //   console.log("stopped listening");
+  //   //look for ways to just end this function when islistening is set to false from elsewhere
+  // }, chatTimer * 1000);
+  // const responseMsg = {
+  //   type: "doneListening"
+  // };
+  // wss.clients.forEach(wsClient => {
+  //   wsClient.send(JSON.stringify(responseMsg));
+  // });
 };
 
 onGetMadlibLibraryMsg = () => {
