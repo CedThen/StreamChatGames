@@ -21,12 +21,12 @@ class MadlibsHome extends React.Component {
       allMsgsLib: {},
       //game display
       gameObjectLibrary: [],
+      //game control
+      answerArray: [],
       currentGameObject: null,
-      currentlyDisplayedBlank: null,
       blankIndex: null,
       timeLeft: null,
-      gameEnd: false,
-      answerArray: [],
+      isGamePlaying: false,
       showResults: false
     };
     //websocket client setup
@@ -171,83 +171,83 @@ class MadlibsHome extends React.Component {
     }
     //initial game state
     this.setState({
-      blankIndex: 0,
-      timeLeft: this.state.chatTimer
+      isGamePlaying: true
     });
-    //begin game loop
-    this.gameLoop();
+    //begin game Path
+    this.gamePath();
   };
 
-  gameLoop = () => {
+  gamePath = () => {
     //reset chat status, set timer
     this.resetChatStorage();
     this.setState({
       timeLeft: this.state.chatTimer
     });
-    //start timer, logic for what happens when timer is at 0
+
+    if (this.state.blankIndex === null) {
+      this.setState({ blankIndex: 0, timeLeft: this.state.chatTimer });
+      this.gameLoop();
+    } else {
+      this.setState({
+        blankIndex: this.state.blankIndex + 1,
+        timeLeft: this.state.chatTimer
+      });
+      this.gameLoop();
+    }
+  };
+
+  gameLoop = () => {
+    let beginListenMsg = {
+      type: "beginListen"
+    };
+    this.ws.send(JSON.stringify(beginListenMsg));
     this.timer = setInterval(() => {
-      if (this.state.timeLeft > 0) {
+      if (this.state.timeLeft > 1) {
         //decrements timer
         this.setState({ timeLeft: this.state.timeLeft - 1 });
       } else {
         this.stopListeningChatInput();
 
         //new object to add to answerArray
-        let newAnswerArray = [
-          ...this.state.answerArray,
+        let newAnswerArray = this.state.answerArray.concat(
           this.state.rankedMsgs[0].msg
-        ];
+        );
 
-        //time is up, show next button, fill in blank with top word, save word into answer array
+        //leave time at 0, add in newAnswer to the array
         this.setState({ timeLeft: 0, answerArray: newAnswerArray });
         console.log("answer Array: ", this.state.answerArray);
-
-        //if able, increment blankIndex. depending on status of blank index, show either next or gameEnd
-        if (
-          this.state.blankIndex <
-          this.state.currentGameObject.game.blanks.length
-        ) {
-          this.setState({
-            //increments blankIndex
-            blankIndex: this.state.blankIndex + 1
-          });
-        } else {
-          this.setState({
-            gameEnd: true,
-            blankIndex: null,
-            timeLeft: null
-          });
-        }
 
         clearInterval(this.timer);
       }
     }, 1000);
-    //tells server to listen
-    let beginListenMsg = {
-      type: "beginListen"
-    };
-    this.ws.send(JSON.stringify(beginListenMsg));
   };
 
   onNextClick = () => {
-    if (!this.state.gameEnd) {
-      this.gameLoop();
-    }
+    this.gamePath();
   };
 
   onRestartGameClick = () => {
     this.stopListeningChatInput();
-    this.setState({ blankIndex: null, chatTimer: null, showResults: false });
+    this.resetGameState();
     this.resetChatStorage();
+  };
+
+  resetGameState = () => {
+    this.setState({
+      blankIndex: null,
+      timeLeft: null,
+      isGamePlaying: false,
+      answerArray: [],
+      showResults: false
+    });
   };
 
   onReturnLibClick = () => {
     this.resetChatStorage();
     this.stopListeningChatInput();
+    this.resetGameState();
     this.setState({
-      blankIndex: null,
-      currentGameObject: null,
-      showResults: false
+      currentGameObject: null
     });
   };
 
@@ -278,7 +278,10 @@ class MadlibsHome extends React.Component {
   };
 
   onShowResultsClick = () => {
-    this.setState({ showResults: true });
+    this.setState({
+      showResults: true,
+      isGamePlaying: false
+    });
   };
 
   render() {
@@ -309,17 +312,18 @@ class MadlibsHome extends React.Component {
           />
         ) : (
           <GameDisplay
+            rankedMsgs={this.state.rankedMsgs}
             answerArray={this.state.answerArray}
             blankIndex={this.state.blankIndex}
+            isGamePlaying={this.state.isGamePlaying}
+            timeLeft={this.state.timeLeft}
+            showResults={this.state.showResults}
+            currentGameObject={this.state.currentGameObject}
             onNextClick={this.onNextClick}
             onRestartGameClick={this.onRestartGameClick}
-            currentGameObject={this.state.currentGameObject}
             onGameBeginClick={this.onGameBeginClick}
             onReturnLibClick={this.onReturnLibClick}
-            gameEnd={this.state.gameEnd}
-            timeLeft={this.state.timeLeft}
             onShowResultsClick={this.onShowResultsClick}
-            showResults={this.state.showResults}
           />
         )}
         <DisplayMsgs
