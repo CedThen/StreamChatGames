@@ -31,7 +31,8 @@ const GameDisplay = ({
   const BlankDisplay = () => {
     return (
       <div>
-        {timeLeft === 0 ? chatAnswer : <div></div>} {blanksArray[blankIndex]}
+        {timeLeft === 0 ? chatAnswer.msg : <div></div>}{" "}
+        {blanksArray[blankIndex]}
       </div>
     );
   };

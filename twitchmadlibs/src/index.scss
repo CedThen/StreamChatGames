@@ -1,7 +1,7 @@
 @font-face {
-  font-family: "Bangers-Regular";
-  src: local("Bangers-Regular"),
-    url(./Fonts/Bangers-Regular.ttf) format("truetype");
+  font-family: "JosefinSans-Regular";
+  src: local("JosefinSans-Regular"),
+    url(./Fonts/JosefinSans-Regular.ttf) format("truetype");
 }
 @font-face {
   font-family: "Montserrat-Regular";
@@ -17,6 +17,15 @@
   font-family: "Lemonda-Variable";
   src: local("Lemonda-VariableFont_wght"),
     url(./Fonts/Lemonada-VariableFont_wght.ttf) format("truetype");
+}
+@font-face {
+  font-family: "BioRhyme";
+  src: local("BioRhyme-Regular"),
+    url(./Fonts/BioRhyme-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Cabin-Regular";
+  src: local("Cabin-Regular"), url(./Fonts/Cabin-Regular.ttf) format("truetype");
 }
 
 * {
@@ -41,7 +50,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-  padding: 0rem 1.5rem;
+  // padding: 0rem 1.5rem;
 }
 
 code {

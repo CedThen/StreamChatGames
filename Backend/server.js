@@ -48,6 +48,7 @@ wss.on("connection", ws => {
   ws.on("message", wsMessageHandler);
   ws.on("close", () => {
     client = undefined;
+    console.log("client disconnected");
   });
 });
 

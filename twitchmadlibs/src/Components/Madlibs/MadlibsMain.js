@@ -41,15 +41,20 @@ class MadlibsHome extends React.Component {
     };
     this.ws.onmessage = this.wsMessageHandler;
     this.ws.onclose = () => {
-      console.log("disconnected");
+      console.log("disconnected from ws");
     };
-    //reset stream before page refresh/unload
+    //close server-side streamconnection before page refresh/unload
     window.addEventListener("unload", () => {
       this.ws.send(JSON.stringify({ type: "streamReset" }));
     });
     //save timer as variable so it can be cleared later
     this.timer = null;
   }
+
+  componentWillUnmount = () => {
+    console.log("closing websocket connection");
+    this.ws.close();
+  };
 
   addMsgsToLib = newMsgUntrimmed => {
     let { allMsgsLib } = this.state;
@@ -287,7 +292,7 @@ class MadlibsHome extends React.Component {
   render() {
     return (
       <div className="madlibs__main">
-        <h1 className="madlibs__title">Twitch chat games</h1>
+        <h1 className="madlibs__title">Streamer chat games</h1>
         {this.state.showStreamBox ? (
           <StreamConnectionBox
             onStreamChange={this.onStreamChange}
@@ -312,7 +317,7 @@ class MadlibsHome extends React.Component {
           />
         ) : (
           <GameDisplay
-            rankedMsgs={this.state.rankedMsgs}
+            chatAnswer={this.state.rankedMsgs[0]}
             answerArray={this.state.answerArray}
             blankIndex={this.state.blankIndex}
             isGamePlaying={this.state.isGamePlaying}
