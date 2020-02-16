@@ -17,15 +17,25 @@ $color-btn-text: #666a86;
 
 .header {
   position: relative;
-  font-size: 4rem;
-  height: 85vh;
+  height: 100vh;
   width: 100%;
   font-family: "PermanentMarker-Regular";
 
+  // &__Navigation {
+  //   position: absolute;
+  //   top: 0%;
+  //   left: 0%;
+  // }
+
   &__three-canvas {
-    // overflow: hidden;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: -1;
+    overflow: hidden;
   }
   &__text-box {
+    font-size: 4rem;
     position: absolute;
     width: 70%;
     top: 40%;

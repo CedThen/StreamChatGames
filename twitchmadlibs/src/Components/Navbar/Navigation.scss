@@ -3,16 +3,19 @@ $color-navbar-btn-text: white;
 $color-navbar-btn-background: #131617;
 
 .navigation {
-  background-color: $color-navbar;
+  background-color: rgba($color: #000000, $alpha: 0);
   padding: 1.5rem;
   font-family: "Montserrat-Regular";
+  // position: absolute;
+  // z-index: 100;
 
   .nav-btn {
-    padding: 1.5rem;
+    padding: 1rem;
     color: $color-navbar-btn-text;
-    background-color: $color-navbar-btn-background;
-    border-radius: 10rem;
     text-decoration: none;
     font-size: 1.8rem;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

@@ -3,18 +3,50 @@ import "./Home.scss";
 import * as THREE from "three";
 import stormcloud from "../../imgs/stormcloud.png";
 import { NavLink } from "react-router-dom";
+import Navigation from "../Navbar/Navigation.js";
 const MontJson = require("../../Fonts/Montserrat_Regular.json");
+// const words = require("an-array-of-english-words");
+let camera,
+  scene,
+  renderer,
+  cloudParticles = [],
+  flash,
+  ambient,
+  directionalLight,
+  rainCount = 100,
+  rainDrop,
+  rain = [],
+  fontMat,
+  fontL,
+  fontGeo,
+  animateID = animate => {
+    return requestAnimationFrame(animate);
+  };
 
 class Home extends React.Component {
   componentDidMount() {
-    let camera, scene, renderer;
-    let cloudParticles = [],
-      flash,
-      ambient,
-      directionalLight,
-      rainCount = 500,
-      rainDrop,
-      rain = [];
+    this.letterRain();
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(animateID);
+    camera = null;
+    // renderer = null;
+    cloudParticles = [];
+    // flash = null;
+    ambient = null;
+    directionalLight = null;
+    rainDrop = null;
+    rain = [];
+    fontL = null;
+    scene.dispose();
+    fontGeo.dispose();
+    fontMat.dispose();
+    this.mount.removeChild(renderer.domElement);
+    console.log("scene disposed");
+  }
+
+  letterRain = () => {
     init();
     this.mount.appendChild(renderer.domElement);
 
@@ -45,31 +77,29 @@ class Home extends React.Component {
       renderer.setClearColor(scene.fog.color);
       renderer.setSize(window.innerWidth, window.innerHeight);
 
-      let fontL = new THREE.FontLoader();
+      fontL = new THREE.FontLoader();
       let font = fontL.parse(MontJson);
 
-      function randomLetter() {
+      // function randomWord() {
+      //   return words[Math.floor(Math.random() * words.length)];
+      // }
+
+      function randomLet() {
         return Math.floor(Math.random() * 36)
           .toString(36)
           .toUpperCase();
       }
 
       for (let r = 0; r < rainCount; r++) {
-        let randomLet = randomLetter();
-        let fontGeo = new THREE.TextBufferGeometry(randomLet, {
+        let randomLetter = randomLet();
+        fontGeo = new THREE.TextBufferGeometry(randomLetter, {
           font: font,
           size: 7,
           height: 1,
-          curveSegments: 12,
-          bevelEnabled: false,
-          bevelThickness: 1,
-          bevelSize: 1,
-          bevelOffset: 0,
-          bevelSegments: 1
+          curveSegments: 12
         });
-        let fontMat = new THREE.MeshLambertMaterial({
+        fontMat = new THREE.MeshLambertMaterial({
           color: 0xa6d8d4,
-          // map: texture,
           transparent: true
         });
         rainDrop = new THREE.Mesh(fontGeo, fontMat);
@@ -82,7 +112,7 @@ class Home extends React.Component {
         rainDrop.rotation.y = -0.12;
         rainDrop.material.opacity = 0.6;
         rainDrop.velocity = {};
-        rainDrop.velocity = Math.random() * -5;
+        rainDrop.velocity = -1;
         rain.push(rainDrop);
         scene.add(rainDrop);
       }
@@ -113,7 +143,8 @@ class Home extends React.Component {
         p.rotation.z -= 0.0005;
       });
       rain.forEach(p => {
-        p.velocity -= 0.01 + Math.random() * 0.01;
+        // p.velocity -= 0.01 + Math.random() * 0.01;
+        p.velocity -= 0.01;
         p.position.y += p.velocity;
         if (p.position.y < 0) {
           p.position.y = Math.random() * 300 + 500;
@@ -132,18 +163,17 @@ class Home extends React.Component {
           flash.position.set(Math.random() * 400, 300 + Math.random() * 200, 100);
         flash.power = 50 + Math.random() * 500;
       }
+      animateID(animate);
       renderer.render(scene, camera);
-      requestAnimationFrame(animate);
     }
-
-    this.mount.appendChild(renderer.domElement);
-  }
+  };
 
   render() {
     return (
-      <div>
+      <div className="header header__container">
+        <Navigation />
+        <div className="header__three-canvas" ref={ref => (this.mount = ref)}></div>
         <header className="header">
-          <div className="header__three-canvas" ref={ref => (this.mount = ref)}></div>
           <div className="header__text-box">
             <h1 className="header__heading-primary">Streamer Chat Games</h1>
             <h3 className="header__heading-sub">Pick your poison</h3>

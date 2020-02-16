@@ -3,6 +3,10 @@ $color-stream-name: #57a773;
 //more colors
 // 08B2E3 57A773 484D6D EFE9F4
 .madlibs {
+  &__main {
+    background-color: rgba($color: #000000, $alpha: 1);
+  }
+
   &__title {
     font-family: "PermanentMarker-Regular";
     font-size: 5rem;

@@ -4,6 +4,7 @@ import StreamConnectionBox from "../StreamConnectionBox/StreamConnectionBox";
 import "./MadlibsMain.scss";
 import GameLibraryDisplay from "../GameLibraryDisplay/GameLibraryDisplay";
 import GameDisplay from "../GameDisplay/GameDisplay";
+import Navigation from "../Navbar/Navigation.js";
 
 const socketURL = "ws://localhost:3030";
 
@@ -214,9 +215,7 @@ class MadlibsHome extends React.Component {
         this.stopListeningChatInput();
 
         //new object to add to answerArray
-        let newAnswerArray = this.state.answerArray.concat(
-          this.state.rankedMsgs[0].msg
-        );
+        let newAnswerArray = this.state.answerArray.concat(this.state.rankedMsgs[0].msg);
 
         //leave time at 0, add in newAnswer to the array
         this.setState({ timeLeft: 0, answerArray: newAnswerArray });
@@ -292,6 +291,7 @@ class MadlibsHome extends React.Component {
   render() {
     return (
       <div className="madlibs__main">
+        <Navigation />
         <h1 className="madlibs__title">Streamer chat games</h1>
         {this.state.showStreamBox ? (
           <StreamConnectionBox
@@ -303,10 +303,7 @@ class MadlibsHome extends React.Component {
             onStreamConnectionResetClick={this.onStreamConnectionResetClick}
           />
         ) : (
-          <div
-            className="madlibs__stream-name"
-            onClick={this.toggleShowStreamConnectionBox}
-          >
+          <div className="madlibs__stream-name" onClick={this.toggleShowStreamConnectionBox}>
             {this.state.streamUrl}
           </div>
         )}
@@ -331,10 +328,7 @@ class MadlibsHome extends React.Component {
             onShowResultsClick={this.onShowResultsClick}
           />
         )}
-        <DisplayMsgs
-          latestMsg={this.state.latestMsg}
-          rankedMsgs={this.state.rankedMsgs}
-        />
+        <DisplayMsgs latestMsg={this.state.latestMsg} rankedMsgs={this.state.rankedMsgs} />
       </div>
     );
   }
