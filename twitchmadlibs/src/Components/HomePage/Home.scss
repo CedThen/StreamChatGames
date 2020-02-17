@@ -1,13 +1,7 @@
-$color-background-primary: #131617;
-
-$color-text-main: white;
-$color-text-secondary: #d9f7fa;
+$color-heading-primary: white;
+$color-heading-secondary: #d9f7fa;
 $color-text-tertiary: #e8ddb5;
 
-$color-body-text: #666a86;
-$color-body-background: #b7cece;
-$color-body-btn: #e8ddb5;
-$color-btn-text: #666a86;
 //more colors
 //6E7E85 grey
 //B7CECE pastel blue grey
@@ -18,78 +12,73 @@ $color-btn-text: #666a86;
 .header {
   position: relative;
   height: 100vh;
-  width: 100%;
-  font-family: "PermanentMarker-Regular";
-
-  // &__Navigation {
-  //   position: absolute;
-  //   top: 0%;
-  //   left: 0%;
-  // }
 
   &__three-canvas {
+    display: block;
     position: absolute;
+    width: 100%;
+    height: 100%;
     top: 0%;
     left: 0%;
     z-index: -1;
     overflow: hidden;
   }
   &__text-box {
+    font-family: "PermanentMarker-Regular";
     font-size: 4rem;
     position: absolute;
     width: 70%;
-    top: 40%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
   }
 
   &__heading-primary {
     letter-spacing: 1rem;
-    color: $color-text-main;
+    color: $color-heading-primary;
   }
   &__heading-sub {
-    color: $color-text-secondary;
+    color: $color-heading-secondary;
     position: absolute;
-    top: 150%;
+    top: 100%;
     left: 50%;
-    text-align: center;
   }
 }
-.body {
-  &__home {
-    width: 100%;
-    height: 50vh;
-    position: relative;
-    // left: 20%;
-    background-color: $color-body-background;
-    background-size: cover;
-    position: relative;
-    display: inline-block;
-    font-family: "Lemonda-Variable";
-    font-weight: 600;
-  }
+.link-container {
+  //set display format, space out the actual link boxes
+  display: flex;
+  justify-content: center;
 
-  &__link-madlib {
+  position: absolute;
+  top: 60%;
+  width: 100%;
+
+  &__madlib {
+    margin: 3rem;
+    text-align: center;
+
     padding: 3rem;
   }
-  &__link-container {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  &__crosswords {
+    margin: 3rem;
+    text-align: center;
+
+    padding: 3rem;
   }
-  &__nav-btn {
+  &__btn {
+    //css of buttons
+    font-weight: 700;
     font-size: 2rem;
-    text-decoration: none;
-    background-color: $color-body-btn;
-    padding: 1rem 2rem;
-    border-radius: 1rem;
-    color: $color-btn-text;
+    padding: 1.5rem;
+    color: $color-heading-secondary;
   }
+
   &__text {
+    text-align: center;
     font-size: 2rem;
-    padding-left: 3rem;
-    color: $color-body-text;
+    padding-top: 1rem;
+    color: $color-heading-primary;
     .dumb {
       text-decoration: line-through;
     }

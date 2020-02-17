@@ -52,16 +52,12 @@ class Home extends React.Component {
 
     function init() {
       scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(
-        60,
-        window.innerWidth / window.innerHeight,
-        1,
-        2000
-      );
+      camera = new THREE.PerspectiveCamera(60, 2, 1, 1000);
       camera.position.z = 1;
       camera.rotation.x = 1.16;
       camera.rotation.y = -0.12;
       camera.rotation.z = 0.27;
+
       ambient = new THREE.AmbientLight(0x555555);
       scene.add(ambient);
       directionalLight = new THREE.DirectionalLight(0xffeedd);
@@ -143,7 +139,6 @@ class Home extends React.Component {
         p.rotation.z -= 0.0005;
       });
       rain.forEach(p => {
-        // p.velocity -= 0.01 + Math.random() * 0.01;
         p.velocity -= 0.01;
         p.position.y += p.velocity;
         if (p.position.y < 0) {
@@ -173,28 +168,26 @@ class Home extends React.Component {
       <div className="header header__container">
         <Navigation />
         <div className="header__three-canvas" ref={ref => (this.mount = ref)}></div>
-        <header className="header">
+        <header>
           <div className="header__text-box">
             <h1 className="header__heading-primary">Streamer Chat Games</h1>
             <h3 className="header__heading-sub">Pick your poison</h3>
           </div>
         </header>
-        <div className="body body__home">
-          <div className="body__link-container">
-            <div className="body__link-madlib">
-              <NavLink className="body__nav-btn" to="/Madlibs">
-                Madlibs
-              </NavLink>
-              <span className="body__text">
-                How <span className="dumb">dumb</span> clever is your chat?
-              </span>
+        <div className="link-container">
+          <div className="link-container__madlib">
+            <NavLink className="link-container__btn" to="/Madlibs">
+              Madlibs
+            </NavLink>
+            <div className="link-container__text">
+              How <span className="dumb">dumb</span> clever is your chat?
             </div>
-            <div>
-              <NavLink className="body__nav-btn" to="/Madlibs">
-                Crosswords
-              </NavLink>
-              <span className="body__text">How smart is your chat?</span>
-            </div>
+          </div>
+          <div className="link-container__crosswords">
+            <NavLink className="link-container__btn" to="/Madlibs">
+              Crosswords
+            </NavLink>
+            <div className="link-container__text">How smart is your chat?</div>
           </div>
         </div>
       </div>
