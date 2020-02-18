@@ -16,11 +16,11 @@ const GameLibraryDisplay = ({ gameObjectLibrary, onGameTitleClick }) => {
   let randomSeed = Math.floor(Math.random() * gameObjectLibrary.length);
   return (
     <div className="GameLibraryDisplay__container">
-      <h2 className="GameLibraryDisplay__title">
-        Choose a madlib, or click random!
-      </h2>
+      <h2 className="GameLibraryDisplay__title">Choose a madlib</h2>
       <ul className="GameLibraryDisplay__list">{gameObjectTitles}</ul>
-      <h2 onClick={() => onGameTitleClick(randomSeed)}>Random!</h2>
+      <h2 className="GameLibraryDisplay__random" onClick={() => onGameTitleClick(randomSeed)}>
+        Random!
+      </h2>
     </div>
   );
 };

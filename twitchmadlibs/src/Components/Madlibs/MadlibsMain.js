@@ -5,6 +5,7 @@ import "./MadlibsMain.scss";
 import GameLibraryDisplay from "../GameLibraryDisplay/GameLibraryDisplay";
 import GameDisplay from "../GameDisplay/GameDisplay";
 import Navigation from "../Navbar/Navigation.js";
+import ThreeJsBg from "../ThreeJSBackground.js";
 
 const socketURL = "ws://localhost:3030";
 
@@ -292,43 +293,53 @@ class MadlibsHome extends React.Component {
     return (
       <div className="madlibs__main">
         <Navigation />
-        <h1 className="madlibs__title">Streamer chat games</h1>
-        {this.state.showStreamBox ? (
-          <StreamConnectionBox
-            onStreamChange={this.onStreamChange}
-            onSubmitStreamClick={this.onSubmitStreamClick}
-            onTimerChange={this.onTimerChange}
-            chatTimer={this.state.chatTimer}
-            streamUrl={this.state.streamUrl}
-            onStreamConnectionResetClick={this.onStreamConnectionResetClick}
-          />
-        ) : (
-          <div className="madlibs__stream-name" onClick={this.toggleShowStreamConnectionBox}>
-            {this.state.streamUrl}
-          </div>
-        )}
-        {!this.state.currentGameObject ? (
-          <GameLibraryDisplay
-            gameObjectLibrary={this.state.gameObjectLibrary}
-            onGameTitleClick={this.onGameTitleClick}
-          />
-        ) : (
-          <GameDisplay
-            chatAnswer={this.state.rankedMsgs[0]}
-            answerArray={this.state.answerArray}
-            blankIndex={this.state.blankIndex}
-            isGamePlaying={this.state.isGamePlaying}
-            timeLeft={this.state.timeLeft}
-            showResults={this.state.showResults}
-            currentGameObject={this.state.currentGameObject}
-            onNextClick={this.onNextClick}
-            onRestartGameClick={this.onRestartGameClick}
-            onGameBeginClick={this.onGameBeginClick}
-            onReturnLibClick={this.onReturnLibClick}
-            onShowResultsClick={this.onShowResultsClick}
-          />
-        )}
-        <DisplayMsgs latestMsg={this.state.latestMsg} rankedMsgs={this.state.rankedMsgs} />
+        <ThreeJsBg cssClass="madlibs__three-canvas" animType="Madlibs" />
+        <div className="madlibs__right-panel">
+          {this.state.showStreamBox ? (
+            <div className="madlibs__streambox">
+              <StreamConnectionBox
+                onStreamChange={this.onStreamChange}
+                onSubmitStreamClick={this.onSubmitStreamClick}
+                onTimerChange={this.onTimerChange}
+                chatTimer={this.state.chatTimer}
+                streamUrl={this.state.streamUrl}
+                onStreamConnectionResetClick={this.onStreamConnectionResetClick}
+              />
+            </div>
+          ) : (
+            <div className="madlibs__stream-name" onClick={this.toggleShowStreamConnectionBox}>
+              {this.state.streamUrl}
+            </div>
+          )}
+          <DisplayMsgs latestMsg={this.state.latestMsg} rankedMsgs={this.state.rankedMsgs} />
+        </div>
+        <div className="madlibs__left-panel">
+          <h1 className="madlibs__title">Madlibs</h1>
+
+          {!this.state.currentGameObject ? (
+            <GameLibraryDisplay
+              className="madlibs__gameLibraryDisplay"
+              gameObjectLibrary={this.state.gameObjectLibrary}
+              onGameTitleClick={this.onGameTitleClick}
+              showStreamBox={this.state.showStreamBox}
+            />
+          ) : (
+            <GameDisplay
+              chatAnswer={this.state.rankedMsgs[0]}
+              answerArray={this.state.answerArray}
+              blankIndex={this.state.blankIndex}
+              isGamePlaying={this.state.isGamePlaying}
+              timeLeft={this.state.timeLeft}
+              showResults={this.state.showResults}
+              currentGameObject={this.state.currentGameObject}
+              onNextClick={this.onNextClick}
+              onRestartGameClick={this.onRestartGameClick}
+              onGameBeginClick={this.onGameBeginClick}
+              onReturnLibClick={this.onReturnLibClick}
+              onShowResultsClick={this.onShowResultsClick}
+            />
+          )}
+        </div>
       </div>
     );
   }

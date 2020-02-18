@@ -11,7 +11,7 @@ const StreamConnectionBox = ({
 }) => {
   return (
     <div className="streambox">
-      <h3 className="streambox__title">Enter stream link: </h3>
+      <h3 className="streambox__title">Enter stream link</h3>
       <span className="streambox__url-tag">Twitch.tv/ </span>
       <input
         className="streambox__url-input"

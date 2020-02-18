@@ -1,14 +1,13 @@
 $display-msgs-background-color: #484d6d;
-$display-msgs-text-color: #f4d35e;
+$display-msgs-text-color: #d9f7fa;
 
 .displayMsgs {
   &__container {
-    background-color: $display-msgs-background-color;
     position: absolute;
-    top: 30%;
-    height: 80rem;
+    top: 40%;
+    height: 60vh;
     width: 33rem;
-    right: 2%;
+    right: 5%;
   }
   &__title {
     font-size: 3rem;

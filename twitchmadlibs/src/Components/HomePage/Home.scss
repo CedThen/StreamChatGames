@@ -1,6 +1,6 @@
 $color-heading-primary: white;
 $color-heading-secondary: #d9f7fa;
-$color-text-tertiary: #e8ddb5;
+$color-text-tertiary: #be6a9b;
 
 //more colors
 //6E7E85 grey
@@ -46,10 +46,8 @@ $color-text-tertiary: #e8ddb5;
   }
 }
 .link-container {
-  //set display format, space out the actual link boxes
   display: flex;
   justify-content: center;
-
   position: absolute;
   top: 60%;
   width: 100%;
@@ -67,7 +65,6 @@ $color-text-tertiary: #e8ddb5;
     padding: 3rem;
   }
   &__btn {
-    //css of buttons
     font-weight: 700;
     font-size: 2rem;
     padding: 1.5rem;
@@ -78,7 +75,7 @@ $color-text-tertiary: #e8ddb5;
     text-align: center;
     font-size: 2rem;
     padding-top: 1rem;
-    color: $color-heading-primary;
+    color: $color-text-tertiary;
     .dumb {
       text-decoration: line-through;
     }

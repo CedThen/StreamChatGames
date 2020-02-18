@@ -1,22 +1,40 @@
-$color-background-game-display: #484d6d;
-$color-game-display-text: #efe9f4;
+$color-background-game-display: #363c5e00;
+$color-game-display-text: #d9f7fa;
+$color-game-library-items: #df948b;
 
 .GameLibraryDisplay {
   &__container {
     position: absolute;
-    top: 40%;
-    width: 70%;
-    height: 60vh;
-    background-color: $color-background-game-display;
-    text-align: center;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 70vh;
+    // background-color: $color-background-game-display;
+    // border: groove;
     color: $color-game-display-text;
+    text-align: center;
+    text-transform: uppercase;
   }
   &__title {
-    font-size: 3rem;
+    font-size: 4rem;
+    font-weight: 700;
   }
   &__list {
+    padding-left: 10rem;
     text-align: left;
     font-size: 3rem;
-    color: #ee6352;
+    color: $color-game-library-items;
+  }
+  &__random {
+    font-size: 3rem;
+    font-weight: 700;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
