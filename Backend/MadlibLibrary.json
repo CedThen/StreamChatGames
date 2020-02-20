@@ -76,6 +76,17 @@
     }
   },
   {
+    "title": "Trump's Bad Day",
+    "game": {
+      "blanks": ["adverb", "adverb", "adjective"],
+      "value": [
+        "Impossible! Trump ",
+        " and find yourself having to cross a piranha-filled river, here's how to do it ",
+        ": \n* Piranhas are more "
+      ]
+    }
+  },
+  {
     "title": "Test Display results",
     "game": {
       "blanks": ["foreign country", "adverb", "adjective"],
