@@ -7,6 +7,7 @@ const GameDisplay = ({
   currentGameObject,
   blankIndex,
   timeLeft,
+  chatTimer,
   isGamePlaying,
   showResults,
   onGameBeginClick,
@@ -25,20 +26,29 @@ const GameDisplay = ({
     );
   });
 
+  const timerStyle = {
+    animation: "colorShift",
+    animationDuration: chatTimer + "s"
+  };
+  // console.log(timerStyle);
+  // console.log("timeleft: ", timeLeft);
   const TimerDisplay = () => {
-    return <div>{timeLeft} s</div>;
+    return <div className="timerDisplay">{timeLeft} s</div>;
   };
   const BlankDisplay = () => {
     return (
-      <div>
-        {timeLeft === 0 ? chatAnswer.msg : <div></div>}{" "}
-        {blanksArray[blankIndex]}
+      <div className="blank-display">
+        {timeLeft === 0 ? chatAnswer.msg : <div></div>} {blanksArray[blankIndex]}
       </div>
     );
   };
   const NextClick = () => {
     if (timeLeft === 0 && answerArray.length < blanksArray.length) {
-      return <div onClick={onNextClick}>Next</div>;
+      return (
+        <div className="next-btn" onClick={onNextClick}>
+          Next
+        </div>
+      );
     } else if (timeLeft === 0 && answerArray.length === blanksArray.length) {
       return <GameEndDisplay />;
     } else {
@@ -55,8 +65,10 @@ const GameDisplay = ({
   const GameEndDisplay = () => {
     return (
       <div>
-        Reached end of game!!!
-        <span onClick={onShowResultsClick}>Show Results</span>
+        The End!
+        <div className="game-end-display" onClick={onShowResultsClick}>
+          Show Results
+        </div>
       </div>
     );
   };
@@ -83,7 +95,8 @@ const GameDisplay = ({
   });
   return (
     <div className="gameDisplay gameDisplay__container">
-      <h2>{currentGameObject.title}</h2>
+      <h2 className="gameDisplay__title">{currentGameObject.title}</h2>
+      <br></br>
       {!isGamePlaying && answerArray.length === 0 ? (
         <h2 className="gameDisplay__begin-btn" onClick={onGameBeginClick}>
           Begin!
@@ -91,11 +104,15 @@ const GameDisplay = ({
       ) : (
         <div></div>
       )}
-      {isGamePlaying ? <GameContainer /> : <div></div>}
+      {isGamePlaying ? <GameContainer className="gameDisplay__game-container" /> : <div></div>}
       {showResults ? <DisplayResults /> : <div></div>}
       <br></br>
-      <h3 onClick={onReturnLibClick}>Return to Game Selection</h3>
-      <h3 onClick={onRestartGameClick}>Restart</h3>
+      <h3 className="gameDisplay__return-btn" onClick={onReturnLibClick}>
+        Return to Game Selection
+      </h3>
+      <h3 className="gameDisplay__restart-btn" onClick={onRestartGameClick}>
+        Restart
+      </h3>
     </div>
   );
 };

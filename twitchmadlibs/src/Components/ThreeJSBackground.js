@@ -18,8 +18,10 @@ class ThreeJsBg extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      animType: this.props.animType
+      animType: this.props.animType,
+      currentWords: {}
     };
+    console.log("props: ", this.props);
   }
   componentDidMount() {
     this.init();
@@ -96,6 +98,9 @@ class ThreeJsBg extends React.Component {
     if (this.state.animType === "homePage") {
       this.letterFallAnim();
     }
+    if (this.state.animType === "madlibs") {
+      this.wordFall();
+    }
 
     cloudParticles.forEach(p => {
       p.rotation.z -= 0.0005;
@@ -126,6 +131,55 @@ class ThreeJsBg extends React.Component {
         p.velocity = 0;
       }
     });
+  };
+
+  wordFall = () => {
+    if (!this.state.currentWords[this.props.msg]) {
+      //not a currently falling word, create and add to scene
+      console.log("making new word geo");
+      let fontL = new THREE.FontLoader();
+      let font = fontL.parse(MontJson);
+
+      let fontGeo = new THREE.TextBufferGeometry(this.props.msg, {
+        font: font,
+        size: 7,
+        height: 1,
+        curveSegments: 12
+      });
+      let fontMat = new THREE.MeshLambertMaterial({
+        color: 0xa6d8d4,
+        transparent: true
+      });
+      let wordDrop = new THREE.Mesh(fontGeo, fontMat);
+      wordDrop.position.set(
+        Math.random() * 800 - 400,
+        Math.random() * 800,
+        Math.random() * 500 - 450
+      );
+      wordDrop.rotation.x = 1.16;
+      wordDrop.rotation.y = -0.12;
+      wordDrop.material.opacity = 0.6;
+      wordDrop.velocity = {};
+      wordDrop.velocity = -1;
+
+      let updatedWordObj = this.state.currentWords;
+      updatedWordObj[this.props.msg] = wordDrop;
+      console.log("updated wordd obj: ", updatedWordObj);
+      this.setState({ currentWords: updatedWordObj });
+
+      scene.add(wordDrop);
+    } else {
+      for (let word in this.state.currentWords) {
+        this.state.currentWords[word].velocity -= 0.01;
+        this.state.currentWords[word].position.y += this.state.currentWords[word].velocity;
+        if (this.state.currentWords[word].position.y < 0) {
+          scene.remove(this.state.currentWords[word]);
+          let newCurrentWords = this.state.currentWords;
+          delete newCurrentWords[word];
+          this.setState(newCurrentWords);
+        }
+      }
+    }
   };
 
   letterFallInit = () => {

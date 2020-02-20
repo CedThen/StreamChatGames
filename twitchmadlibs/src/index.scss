@@ -1,12 +1,10 @@
 @font-face {
   font-family: "JosefinSans-Regular";
-  src: local("JosefinSans-Regular"),
-    url(./Fonts/JosefinSans-Regular.ttf) format("truetype");
+  src: local("JosefinSans-Regular"), url(./Fonts/JosefinSans-Regular.ttf) format("truetype");
 }
 @font-face {
   font-family: "Montserrat-Regular";
-  src: local("Montserrat-Regular"),
-    url(./Fonts/Montserrat-Regular.ttf) format("truetype");
+  src: local("Montserrat-Regular"), url(./Fonts/Montserrat-Regular.ttf) format("truetype");
 }
 @font-face {
   font-family: "PermanentMarker-Regular";
@@ -20,12 +18,16 @@
 }
 @font-face {
   font-family: "BioRhyme";
-  src: local("BioRhyme-Regular"),
-    url(./Fonts/BioRhyme-Regular.ttf) format("truetype");
+  src: local("BioRhyme-Regular"), url(./Fonts/BioRhyme-Regular.ttf) format("truetype");
 }
 @font-face {
   font-family: "Cabin-Regular";
   src: local("Cabin-Regular"), url(./Fonts/Cabin-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: "LibreBaskerville-Regular";
+  src: local("LibreBaskerville-Regular"),
+    url(./Fonts/LibreBaskerville-Regular.ttf) format("truetype");
 }
 
 * {
@@ -54,6 +56,5 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

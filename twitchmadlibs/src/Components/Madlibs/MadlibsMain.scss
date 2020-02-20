@@ -1,20 +1,23 @@
 $color-madlibs-title: #d9f7fa;
-$color-stream-name: #6aa17e;
+$color-stream-name: #94c7a7;
 //more colors
 // 08B2E3 57A773 484D6D EFE9F4
 
 .madlibs {
   &__right-panel {
-    border: groove;
+    // border: groove;
+    border-width: 1px;
     position: absolute;
-    right: 0%;
-    width: 30%;
-    height: 90%;
+    right: 3%;
+    width: 25%;
+    height: 80%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
   }
   &__left-panel {
-    border: groove;
+    // border: groove;
     position: absolute;
     left: 0%;
     width: 70%;
@@ -40,8 +43,15 @@ $color-stream-name: #6aa17e;
     text-align: center;
     color: $color-madlibs-title;
   }
+  // &__stream-tag {
+  //   position: absolute;
+  //   top: 22%;
+  //   right: 5%;
+  //   transform: translate(-50%, -50%);
+  //   font-size: 3rem;
+  // }
   &__stream-name {
-    position: absolute;
+    position: relative;
     top: 25%;
     right: 5%;
     transform: translate(-50%, -50%);

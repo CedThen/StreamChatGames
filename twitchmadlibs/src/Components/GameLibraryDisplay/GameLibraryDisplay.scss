@@ -8,7 +8,7 @@ $color-game-library-items: #df948b;
     top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
+    width: 60%;
     height: 70vh;
     // background-color: $color-background-game-display;
     // border: groove;
@@ -21,9 +21,10 @@ $color-game-library-items: #df948b;
     font-weight: 700;
   }
   &__list {
+    font-weight: 700;
     padding-left: 10rem;
     text-align: left;
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: $color-game-library-items;
   }
   &__random {
@@ -36,5 +37,11 @@ $color-game-library-items: #df948b;
     &:hover {
       cursor: pointer;
     }
+  }
+}
+
+.gameObject__list-title {
+  &:hover {
+    cursor: pointer;
   }
 }

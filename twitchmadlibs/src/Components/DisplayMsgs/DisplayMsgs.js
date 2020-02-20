@@ -1,12 +1,13 @@
 import React from "react";
 import "./DisplayMsgs.scss";
 
-function DisplayMsgs({ rankedMsgs, latestMsg }) {
+function DisplayMsgs({ rankedMsgs }) {
   let msgsArray = rankedMsgs.map((msgObject, index) => {
     return (
       <li className="displayMsgs__text" key={index}>
         <h3>
-          {msgObject.msg} Votes: {msgObject.count}
+          {msgObject.msg}{" "}
+          <span className="displayMsgs__vote-count">Votes: {msgObject.count}</span>
         </h3>
       </li>
     );

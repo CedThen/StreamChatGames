@@ -56,6 +56,7 @@ class MadlibsHome extends React.Component {
   componentWillUnmount = () => {
     console.log("closing websocket connection");
     this.ws.close();
+    // window.removeEventListener("unload");
   };
 
   addMsgsToLib = newMsgUntrimmed => {
@@ -190,7 +191,6 @@ class MadlibsHome extends React.Component {
     this.setState({
       timeLeft: this.state.chatTimer
     });
-
     if (this.state.blankIndex === null) {
       this.setState({ blankIndex: 0, timeLeft: this.state.chatTimer });
       this.gameLoop();
@@ -220,7 +220,6 @@ class MadlibsHome extends React.Component {
 
         //leave time at 0, add in newAnswer to the array
         this.setState({ timeLeft: 0, answerArray: newAnswerArray });
-        console.log("answer Array: ", this.state.answerArray);
 
         clearInterval(this.timer);
       }
@@ -287,13 +286,18 @@ class MadlibsHome extends React.Component {
       showResults: true,
       isGamePlaying: false
     });
+    this.resetChatStorage();
   };
 
   render() {
     return (
       <div className="madlibs__main">
         <Navigation />
-        <ThreeJsBg cssClass="madlibs__three-canvas" animType="Madlibs" />
+        <ThreeJsBg
+          cssClass="madlibs__three-canvas"
+          animType="madlibs"
+          msg={this.state.latestMsg}
+        />
         <div className="madlibs__right-panel">
           {this.state.showStreamBox ? (
             <div className="madlibs__streambox">
@@ -307,15 +311,14 @@ class MadlibsHome extends React.Component {
               />
             </div>
           ) : (
-            <div className="madlibs__stream-name" onClick={this.toggleShowStreamConnectionBox}>
-              {this.state.streamUrl}
+            <div className="madlibs__stream-tag" onClick={this.toggleShowStreamConnectionBox}>
+              <span className="madlibs__stream-name">{this.state.streamUrl}</span>
             </div>
           )}
           <DisplayMsgs latestMsg={this.state.latestMsg} rankedMsgs={this.state.rankedMsgs} />
         </div>
         <div className="madlibs__left-panel">
           <h1 className="madlibs__title">Madlibs</h1>
-
           {!this.state.currentGameObject ? (
             <GameLibraryDisplay
               className="madlibs__gameLibraryDisplay"
@@ -329,6 +332,7 @@ class MadlibsHome extends React.Component {
               answerArray={this.state.answerArray}
               blankIndex={this.state.blankIndex}
               isGamePlaying={this.state.isGamePlaying}
+              chatTimer={this.state.chatTimer}
               timeLeft={this.state.timeLeft}
               showResults={this.state.showResults}
               currentGameObject={this.state.currentGameObject}

@@ -4,12 +4,8 @@ import "./GameLibraryDisplay.scss";
 const GameLibraryDisplay = ({ gameObjectLibrary, onGameTitleClick }) => {
   const gameObjectTitles = gameObjectLibrary.map((gameObject, index) => {
     return (
-      <li
-        key={index}
-        className="gameObject__list-title"
-        onClick={() => onGameTitleClick(index)}
-      >
-        {gameObject.title}
+      <li key={index} onClick={() => onGameTitleClick(index)}>
+        <span className="gameObject__list-title">{gameObject.title}</span>
       </li>
     );
   });

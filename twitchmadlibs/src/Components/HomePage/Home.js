@@ -13,8 +13,8 @@ class Home extends React.Component {
         <ThreeJsBg cssClass="header__three-canvas" animType={"homePage"} />
         <header>
           <div className="header__text-box">
-            <h1 className="header__heading-primary">Streamer Chat Games</h1>
-            <h3 className="header__heading-sub">Pick your poison</h3>
+            <h1 className="header__heading-primary">Stream Chat Games</h1>
+            {/* <h3 className="header__heading-sub">Pick your poison</h3> */}
           </div>
         </header>
         <div className="link-container">

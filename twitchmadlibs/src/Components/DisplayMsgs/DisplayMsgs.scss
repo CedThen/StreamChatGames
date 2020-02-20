@@ -6,8 +6,8 @@ $display-msgs-text-color: #d9f7fa;
     position: absolute;
     top: 40%;
     height: 60vh;
-    width: 33rem;
-    right: 5%;
+    width: 80%;
+    // right: 5%;
   }
   &__title {
     font-size: 3rem;
@@ -17,5 +17,8 @@ $display-msgs-text-color: #d9f7fa;
   &__text {
     font-size: 2rem;
     color: $display-msgs-text-color;
+  }
+  &__vote-count {
+    float: right;
   }
 }
