@@ -21,7 +21,6 @@ class ThreeJsBg extends React.Component {
       animType: this.props.animType,
       currentWords: {}
     };
-    console.log("props: ", this.props);
   }
   componentDidMount() {
     this.init();
@@ -44,7 +43,6 @@ class ThreeJsBg extends React.Component {
   };
 
   init = () => {
-    console.log("animtype: ", this.state);
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(60, 2, 1, 1000);
     camera.position.z = 1;

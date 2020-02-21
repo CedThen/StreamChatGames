@@ -1,8 +1,4 @@
 @font-face {
-  font-family: "JosefinSans-Regular";
-  src: local("JosefinSans-Regular"), url(./Fonts/JosefinSans-Regular.ttf) format("truetype");
-}
-@font-face {
   font-family: "Montserrat-Regular";
   src: local("Montserrat-Regular"), url(./Fonts/Montserrat-Regular.ttf) format("truetype");
 }
@@ -10,24 +6,6 @@
   font-family: "PermanentMarker-Regular";
   src: local("PermanentMarker-Regular"),
     url(./Fonts/PermanentMarker-Regular.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Lemonda-Variable";
-  src: local("Lemonda-VariableFont_wght"),
-    url(./Fonts/Lemonada-VariableFont_wght.ttf) format("truetype");
-}
-@font-face {
-  font-family: "BioRhyme";
-  src: local("BioRhyme-Regular"), url(./Fonts/BioRhyme-Regular.ttf) format("truetype");
-}
-@font-face {
-  font-family: "Cabin-Regular";
-  src: local("Cabin-Regular"), url(./Fonts/Cabin-Regular.ttf) format("truetype");
-}
-@font-face {
-  font-family: "LibreBaskerville-Regular";
-  src: local("LibreBaskerville-Regular"),
-    url(./Fonts/LibreBaskerville-Regular.ttf) format("truetype");
 }
 
 * {

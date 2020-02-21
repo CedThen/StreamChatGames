@@ -26,10 +26,10 @@ const GameDisplay = ({
     );
   });
 
-  const timerStyle = {
-    animation: "colorShift",
-    animationDuration: chatTimer + "s"
-  };
+  // const timerStyle = {
+  //   animation: "colorShift",
+  //   animationDuration: chatTimer + "s"
+  // };
   // console.log(timerStyle);
   // console.log("timeleft: ", timeLeft);
   const TimerDisplay = () => {
