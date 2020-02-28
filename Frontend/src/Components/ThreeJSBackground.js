@@ -132,6 +132,7 @@ class ThreeJsBg extends React.Component {
   };
 
   wordFall = () => {
+    //runs during each frame of animate
     if (!this.state.currentWords[this.props.msg]) {
       //not a currently falling word, create and add to scene
       console.log("making new word geo");

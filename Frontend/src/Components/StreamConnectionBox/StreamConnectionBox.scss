@@ -51,7 +51,12 @@ $path-width: 3px;
 
   &__url-submit {
     position: relative;
-    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
+    border: groove;
+    &:hover {
+      cursor: pointer;
+    }
   }
   &__timer-tag {
     padding-top: 1rem;
@@ -59,6 +64,13 @@ $path-width: 3px;
   }
   &__timer-seconds {
     font-size: 1.4rem;
+  }
+  &__reset {
+    font-size: 1.6rem;
+    border: groove;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 

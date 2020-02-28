@@ -1,12 +1,18 @@
+const express = require("express");
+const PORT = process.env.PORT || 3030;
+const INDEX = "../Frontend/src/index.js";
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`listening on ${PORT}`));
+
 const Websocket = require("ws");
-const wss = new Websocket.Server({ port: 3030 });
+const wss = new Websocket.Server({ server });
 const tmi = require("tmi.js");
 let isListening = false;
 let latestMsg = "";
-// let chatTimer = 0;
+
 let client;
 const madlibLibraryJson = require("./MadlibLibrary.json");
-// let timer;
 
 let opts = {
   identity: {
@@ -25,7 +31,16 @@ function clientSetup() {
 }
 
 function onDisconnectedHandler() {
+  clearTwitchConnection();
   console.log(`* disconnected`);
+}
+
+function clearTwitchConnection() {
+  if (client !== undefined) {
+    client.disconnect();
+  }
+  client = undefined;
+  isListening = false;
 }
 
 function onConnectedHandler(addr, port) {
@@ -47,7 +62,7 @@ wss.on("connection", ws => {
   console.log("client connected");
   ws.on("message", wsMessageHandler);
   ws.on("close", () => {
-    client = undefined;
+    clearTwitchConnection();
     console.log("client disconnected");
   });
 });
@@ -64,7 +79,7 @@ onMsgReceivedFromTwitch = client => {
 
 wsMessageHandler = msg => {
   const jsonMsg = JSON.parse(msg);
-  console.log("msg from client: ", jsonMsg);
+  console.log("msg from ws client: ", jsonMsg);
   switch (jsonMsg.type) {
     case "setupConfig":
       onSetupConfigMsg(jsonMsg.payload);
@@ -93,7 +108,7 @@ onStopListening = () => {
 onStreamReset = () => {
   console.log("running streamreset");
   if (client !== undefined) {
-    client.disconnect();
+    clearTwitchConnection();
   }
   isListening = false;
 };
@@ -101,17 +116,6 @@ onStreamReset = () => {
 onBeginListenMsg = () => {
   console.log("beginning to listen");
   isListening = true;
-  // timer = setTimeout(() => {
-  //   isListening = false;
-  //   console.log("stopped listening");
-  //   //look for ways to just end this function when islistening is set to false from elsewhere
-  // }, chatTimer * 1000);
-  // const responseMsg = {
-  //   type: "doneListening"
-  // };
-  // wss.clients.forEach(wsClient => {
-  //   wsClient.send(JSON.stringify(responseMsg));
-  // });
 };
 
 onGetMadlibLibraryMsg = () => {
@@ -123,8 +127,9 @@ onGetMadlibLibraryMsg = () => {
 };
 
 onSetupConfigMsg = payload => {
+  clearTwitchConnection();
   chatTimer = payload.inputTimer;
-  streamUrlStripped = payload.streamUrl.trim();
+  streamUrlStripped = payload.streamUrl.trim(); //pbly unnecessary
   opts.channels = [streamUrlStripped];
   clientSetup();
 };

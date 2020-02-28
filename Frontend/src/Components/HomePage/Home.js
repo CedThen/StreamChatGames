@@ -26,12 +26,12 @@ class Home extends React.Component {
               How <span className="dumb">dumb</span> clever is your chat?
             </div>
           </div>
-          <div className="link-container__crosswords">
+          {/* <div className="link-container__crosswords">
             <NavLink className="link-container__btn" to="/Madlibs">
               Crosswords
             </NavLink>
             <div className="link-container__text">How smart is your chat?</div>
-          </div>
+          </div> */}
         </div>
       </div>
     );

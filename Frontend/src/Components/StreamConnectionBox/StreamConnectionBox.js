@@ -30,14 +30,14 @@ const StreamConnectionBox = ({
       />
       <span className="streambox__timer-seconds">{chatTimer} seconds</span>
       <br />
-      <input
-        className="streambox__url-submit"
-        type="submit"
-        value="Submit!"
-        onClick={onSubmitStreamClick}
-      />
+      <div className="streambox__url-submit" onClick={onSubmitStreamClick}>
+        Submit
+      </div>
+
       {streamUrl !== "" ? (
-        <div onClick={onStreamConnectionResetClick}>Reset</div>
+        <div className="streambox__reset" onClick={onStreamConnectionResetClick}>
+          Reset
+        </div>
       ) : (
         <div></div>
       )}

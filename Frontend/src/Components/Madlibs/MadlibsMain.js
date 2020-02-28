@@ -47,6 +47,10 @@ class MadlibsHome extends React.Component {
     };
     //close server-side streamconnection before page refresh/unload
     window.addEventListener("unload", () => {
+      this.stopListeningChatInput();
+      this.resetGameState();
+      this.resetChatStorage();
+
       this.ws.send(JSON.stringify({ type: "streamReset" }));
     });
     //save timer as variable so it can be cleared later
@@ -273,6 +277,10 @@ class MadlibsHome extends React.Component {
   };
 
   onStreamConnectionResetClick = () => {
+    console.log("running streamresetclick");
+    this.stopListeningChatInput();
+    this.resetGameState();
+    this.resetChatStorage();
     this.setState({ streamUrl: "" });
     this.resetChatStorage();
     let streamResetMsg = {
