@@ -31,7 +31,7 @@ function clientSetup() {
 }
 
 function onDisconnectedHandler() {
-  clearTwitchConnection();
+  // clearTwitchConnection();
   console.log(`* disconnected`);
 }
 
@@ -52,18 +52,16 @@ function onMessageHandler(target, context, msg, self) {
     return;
   }
   latestMsg = msg;
-
   if (isListening) {
     wss.clients.forEach(onMsgReceivedFromTwitch);
   }
 }
 
 wss.on("connection", ws => {
-  console.log("client connected");
+  // console.log("client connected");
   ws.on("message", wsMessageHandler);
   ws.on("close", () => {
     clearTwitchConnection();
-    console.log("client disconnected");
   });
 });
 
@@ -79,7 +77,7 @@ onMsgReceivedFromTwitch = client => {
 
 wsMessageHandler = msg => {
   const jsonMsg = JSON.parse(msg);
-  console.log("msg from ws client: ", jsonMsg);
+  // console.log("msg from ws client: ", jsonMsg);
   switch (jsonMsg.type) {
     case "setupConfig":
       onSetupConfigMsg(jsonMsg.payload);
