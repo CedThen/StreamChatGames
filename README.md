@@ -7,4 +7,4 @@ and at the end of the timer the most repeated option will be saved. At the end, 
 
 Frontend built with React and Three.js, backend built with Node, Express, websocket server, and twitch.com's api
 
-[Hosted at](http://ec2-3-14-133-230.us-east-2.compute.amazonaws.com:3000/)
+[Check it out!](http://ec2-3-14-133-230.us-east-2.compute.amazonaws.com:3000/)
