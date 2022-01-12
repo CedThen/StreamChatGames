@@ -1,4 +1,4 @@
-# TwitchChatGames
+# StreamChatGames
 
 For streamers with a lot of downtime waiting for queues to pop, or that want to interact with their chat in a different way.
 
